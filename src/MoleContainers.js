@@ -1,18 +1,22 @@
 import {useEffect} from 'react';
 import moleImg from './RR-React-A-Mole-Images/mole.png';
+import EmptySlot from './RR-React-A-Mole-Images/molehill.png';
 
-function Mole(props){
-    useEffect(() => {
-        let randSeconds = Math.ceil(Math.random() * 5000)
-        let timer = setTimeout(() => {
-            props.setDisplayMole(false)
-        }, randSeconds)
-        return () => clearTimeout(timer)
-    })
+const MoleContainer = (props) => {
+    let [theMole, setTheMole] = useState(false)
+
+    const handleClick = (e) => {
+        props.setScore(props.score + 1)
+        setTheMole(false)
+    }
+
+    let displayMole = theMole ? <Mole setScore={props.setScore} toggle={setTheMole} handleClick={handleClick}/> : <EmptySlot toggle={setTheMole} />
 
     return (
-        <div>
-            <img style={{'width': '30vw'}} src={moleImg} onClick={props.handleClick} />
+        <div style={{'display': 'inline-block', 'width': '30vw'}}>
+            {displayMole}
         </div>
     )
 }
+
+export default MoleContainer
